@@ -270,6 +270,7 @@ function simulateRankedMatch(participants, map) {
             linearApproachChance: p.linearRate / 100,
             state: 'hide', timer: 0,
             shootCooldown: 0, attackCooldown: 0,
+            shootDelayTimer: null,
             burstRemaining: 0, burstTimer: 0, 
             charType: charType,
             speed: speed,
@@ -580,6 +581,7 @@ function startSession(enemiesList) {
             lastTargetVisible: false,
             revengeTimer: 0,
             shootCooldown: 0,
+            shootDelayTimer: null,
             chaseTimer: 0,
             chaseTarget: null,
             initialMoveDist: (2.5 + Math.random() * 2.5) * TILE_SIZE,
@@ -1876,15 +1878,32 @@ function updateAI(ai, targetsOverride = null, bulletsOverride = null) {
     // --- 共通射撃ロジック (射線が通っていれば撃つ) ---
     if (target && checkFireLine(ai, target)) {
         if (ai.energy >= 1 && ai.shootCooldown <= 0 && ai.attackCooldown <= 0) {
-            let aimX = target.x;
-            let aimY = target.y;
+            if (ai.shootDelayTimer === null) {
+                // 遅延設定: aimRate 100 -> 0~6f, aimRate 0 -> 30~36f
+                const baseDelay = (100 - ai.aimRate) * 0.3;
+                ai.shootDelayTimer = baseDelay + Math.random() * 6;
+            }
 
-            const angle = Math.atan2(aimY - ai.y, aimX - ai.x);
-            const error = (Math.random() - 0.5) * ai.aimAccuracy;
-            triggerShoot(ai, angle + error, bulletsOverride);
-            // クールダウン (30~42フレーム: 0.5~0.7秒)
-            ai.shootCooldown = 30 + Math.random() * 12;
+            if (ai.shootDelayTimer > 0) {
+                ai.shootDelayTimer--;
+            }
+
+            if (ai.shootDelayTimer <= 0) {
+                let aimX = target.x;
+                let aimY = target.y;
+
+                const angle = Math.atan2(aimY - ai.y, aimX - ai.x);
+                const error = (Math.random() - 0.5) * ai.aimAccuracy;
+                triggerShoot(ai, angle + error, bulletsOverride);
+                // クールダウン (30~42フレーム: 0.5~0.7秒)
+                ai.shootCooldown = 30 + Math.random() * 12;
+                ai.shootDelayTimer = null;
+            }
+        } else {
+            ai.shootDelayTimer = null;
         }
+    } else {
+        ai.shootDelayTimer = null;
     }
 
     // --- ジャンプ制御 ---
