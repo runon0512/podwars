@@ -2890,6 +2890,7 @@ function draw() {
     }
 
     // HPゲージ描画
+    ctx.save();
     // 名前描画の影響を受けないように影を再設定
     ctx.shadowColor = '#000'; ctx.shadowBlur = 4;
     const hx = char.x - 20, hy = char.y - 50, hw = 40, hh = 6;
@@ -2911,6 +2912,7 @@ function draw() {
     // 分割線
     ctx.fillStyle = 'rgba(255,255,255,0.7)';
     for(let i=1; i < char.maxEnergy; i++) ctx.fillRect(gx + (gw/char.maxEnergy)*i, gy, 1, gh);
+    ctx.restore();
 
     });
 
