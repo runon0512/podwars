@@ -46,11 +46,19 @@ const TILE_SIZE = 50;
 let platforms = [];
 let gamePlatforms = [];
 let loadingPlatforms = [];
+let simPlatforms = [];
 function initMap() {
     const baseMap = [{"x":50,"y":800,"w":50,"h":50,"type":0,"color":"#828282"},{"x":100,"y":800,"w":50,"h":50,"type":0,"color":"#828282"},{"x":150,"y":800,"w":50,"h":50,"type":0,"color":"#828282"},{"x":200,"y":800,"w":50,"h":50,"type":0,"color":"#828282"},{"x":250,"y":800,"w":50,"h":50,"type":0,"color":"#828282"},{"x":300,"y":800,"w":50,"h":50,"type":0,"color":"#828282"},{"x":350,"y":800,"w":50,"h":50,"type":2,"color":"#ffffff"},{"x":500,"y":800,"w":50,"h":50,"type":2,"color":"#ffffff"},{"x":550,"y":800,"w":50,"h":50,"type":0,"color":"#828282"},{"x":600,"y":800,"w":50,"h":50,"type":0,"color":"#828282"},{"x":650,"y":800,"w":50,"h":50,"type":0,"color":"#828282"},{"x":700,"y":800,"w":50,"h":50,"type":0,"color":"#828282"},{"x":750,"y":800,"w":50,"h":50,"type":0,"color":"#828282"},{"x":800,"y":800,"w":50,"h":50,"type":0,"color":"#828282"},{"x":850,"y":800,"w":50,"h":50,"type":0,"color":"#828282"},{"x":0,"y":800,"w":50,"h":50,"type":0,"color":"#828282"},{"x":0,"y":850,"w":50,"h":50,"type":0,"color":"#828282"},{"x":50,"y":850,"w":50,"h":50,"type":0,"color":"#828282"},{"x":100,"y":850,"w":50,"h":50,"type":0,"color":"#828282"},{"x":150,"y":850,"w":50,"h":50,"type":0,"color":"#828282"},{"x":200,"y":850,"w":50,"h":50,"type":0,"color":"#828282"},{"x":250,"y":850,"w":50,"h":50,"type":0,"color":"#828282"},{"x":300,"y":850,"w":50,"h":50,"type":0,"color":"#828282"},{"x":350,"y":850,"w":50,"h":50,"type":0,"color":"#828282"},{"x":400,"y":850,"w":50,"h":50,"type":2,"color":"#ffffff"},{"x":450,"y":850,"w":50,"h":50,"type":2,"color":"#ffffff"},{"x":500,"y":850,"w":50,"h":50,"type":0,"color":"#828282"},{"x":550,"y":850,"w":50,"h":50,"type":0,"color":"#828282"},{"x":600,"y":850,"w":50,"h":50,"type":0,"color":"#828282"},{"x":650,"y":850,"w":50,"h":50,"type":0,"color":"#828282"},{"x":700,"y":850,"w":50,"h":50,"type":0,"color":"#828282"},{"x":750,"y":850,"w":50,"h":50,"type":0,"color":"#828282"},{"x":800,"y":850,"w":50,"h":50,"type":0,"color":"#828282"},{"x":850,"y":850,"w":50,"h":50,"type":0,"color":"#828282"},{"x":400,"y":800,"w":50,"h":50,"type":2,"color":"#ffffff"},{"x":450,"y":800,"w":50,"h":50,"type":2,"color":"#ffffff"},{"x":850,"y":750,"w":50,"h":50,"type":2,"color":"#ffffff"},{"x":850,"y":700,"w":50,"h":50,"type":2,"color":"#ffffff"},{"x":850,"y":650,"w":50,"h":50,"type":2,"color":"#ffffff"},{"x":850,"y":600,"w":50,"h":50,"type":2,"color":"#ffffff"},{"x":850,"y":550,"w":50,"h":50,"type":2,"color":"#ffffff"},{"x":850,"y":500,"w":50,"h":50,"type":2,"color":"#ffffff"},{"x":0,"y":750,"w":50,"h":50,"type":2,"color":"#ffffff"},{"x":0,"y":700,"w":50,"h":50,"type":2,"color":"#ffffff"},{"x":0,"y":650,"w":50,"h":50,"type":2,"color":"#ffffff"},{"x":0,"y":600,"w":50,"h":50,"type":2,"color":"#ffffff"},{"x":0,"y":550,"w":50,"h":50,"type":2,"color":"#ffffff"},{"x":0,"y":500,"w":50,"h":50,"type":2,"color":"#ffffff"},{"x":800,"y":650,"w":50,"h":50,"type":1,"color":"#d1ca00"},{"x":700,"y":650,"w":50,"h":50,"type":1,"color":"#d1ca00"},{"x":100,"y":650,"w":50,"h":50,"type":1,"color":"#d1ca00"},{"x":50,"y":650,"w":50,"h":50,"type":1,"color":"#0d0d0d"},{"x":150,"y":650,"w":50,"h":50,"type":1,"color":"#0d0d0d"},{"x":750,"y":650,"w":50,"h":50,"type":1,"color":"#0d0d0d"},{"x":800,"y":500,"w":50,"h":50,"type":1,"color":"#0d0d0d"},{"x":700,"y":500,"w":50,"h":50,"type":1,"color":"#0d0d0d"},{"x":100,"y":500,"w":50,"h":50,"type":1,"color":"#0d0d0d"},{"x":150,"y":500,"w":50,"h":50,"type":1,"color":"#d1ca00"},{"x":50,"y":500,"w":50,"h":50,"type":1,"color":"#d1ca00"},{"x":750,"y":500,"w":50,"h":50,"type":1,"color":"#d1ca00"},{"x":850,"y":450,"w":50,"h":50,"type":2,"color":"#ffffff"},{"x":850,"y":400,"w":50,"h":50,"type":2,"color":"#ffffff"},{"x":0,"y":450,"w":50,"h":50,"type":2,"color":"#ffffff"},{"x":0,"y":400,"w":50,"h":50,"type":2,"color":"#ffffff"},{"x":0,"y":350,"w":50,"h":50,"type":2,"color":"#ffffff"},{"x":0,"y":300,"w":50,"h":50,"type":2,"color":"#ffffff"},{"x":850,"y":350,"w":50,"h":50,"type":2,"color":"#ffffff"},{"x":850,"y":300,"w":50,"h":50,"type":2,"color":"#ffffff"},{"x":850,"y":250,"w":50,"h":50,"type":2,"color":"#ffffff"},{"x":0,"y":250,"w":50,"h":50,"type":2,"color":"#ffffff"},{"x":350,"y":750,"w":50,"h":50,"type":0,"color":"#ffffff"},{"x":400,"y":750,"w":50,"h":50,"type":0,"color":"#ffffff"},{"x":450,"y":750,"w":50,"h":50,"type":0,"color":"#ffffff"},{"x":500,"y":750,"w":50,"h":50,"type":0,"color":"#c9c9c9"},{"x":750,"y":450,"w":50,"h":50,"type":11,"color":"#c9c9c9"},{"x":100,"y":450,"w":50,"h":50,"type":10,"color":"#c9c9c9"},{"x":100,"y":600,"w":50,"h":50,"type":12,"color":"#c9c9c9"},{"x":750,"y":600,"w":50,"h":50,"type":13,"color":"#c9c9c9"},{"x":0,"y":200,"w":50,"h":50,"type":0,"color":"#8d4433"},{"x":0,"y":150,"w":50,"h":50,"type":0,"color":"#8d4433"},{"x":0,"y":100,"w":50,"h":50,"type":0,"color":"#8d4433"},{"x":0,"y":50,"w":50,"h":50,"type":0,"color":"#8d4433"},{"x":50,"y":50,"w":50,"h":50,"type":0,"color":"#8d4433"},{"x":100,"y":50,"w":50,"h":50,"type":0,"color":"#8d4433"},{"x":150,"y":50,"w":50,"h":50,"type":0,"color":"#8d4433"},{"x":200,"y":50,"w":50,"h":50,"type":0,"color":"#8d4433"},{"x":600,"y":50,"w":50,"h":50,"type":0,"color":"#8d4433"},{"x":550,"y":50,"w":50,"h":50,"type":0,"color":"#8d4433"},{"x":500,"y":50,"w":50,"h":50,"type":0,"color":"#8d4433"},{"x":450,"y":50,"w":50,"h":50,"type":0,"color":"#8d4433"},{"x":400,"y":50,"w":50,"h":50,"type":0,"color":"#8d4433"},{"x":350,"y":50,"w":50,"h":50,"type":0,"color":"#8d4433"},{"x":300,"y":50,"w":50,"h":50,"type":0,"color":"#8d4433"},{"x":250,"y":50,"w":50,"h":50,"type":0,"color":"#8d4433"},{"x":650,"y":50,"w":50,"h":50,"type":0,"color":"#8d4433"},{"x":700,"y":50,"w":50,"h":50,"type":0,"color":"#8d4433"},{"x":750,"y":50,"w":50,"h":50,"type":0,"color":"#8d4433"},{"x":800,"y":50,"w":50,"h":50,"type":0,"color":"#8d4433"},{"x":850,"y":50,"w":50,"h":50,"type":0,"color":"#8d4433"},{"x":850,"y":100,"w":50,"h":50,"type":0,"color":"#8d4433"},{"x":850,"y":150,"w":50,"h":50,"type":0,"color":"#8d4433"},{"x":850,"y":200,"w":50,"h":50,"type":0,"color":"#8d4433"},{"x":50,"y":300,"w":50,"h":50,"type":1,"color":"#ffffff"},{"x":100,"y":300,"w":50,"h":50,"type":1,"color":"#ffffff"},{"x":800,"y":300,"w":50,"h":50,"type":1,"color":"#ffffff"},{"x":750,"y":300,"w":50,"h":50,"type":1,"color":"#ffffff"},{"x":450,"y":700,"w":50,"h":50,"type":2,"color":"#c9c9c9"},{"x":400,"y":650,"w":50,"h":50,"type":2,"color":"#c9c9c9"},{"x":400,"y":700,"w":50,"h":50,"type":2,"color":"#ffffff"},{"x":450,"y":650,"w":50,"h":50,"type":2,"color":"#ffffff"},{"x":350,"y":650,"w":50,"h":50,"type":1,"color":"#ffffff"},{"x":500,"y":650,"w":50,"h":50,"type":1,"color":"#ffffff"}];
     gamePlatforms = JSON.parse(JSON.stringify(baseMap));
-    loadingPlatforms = JSON.parse(JSON.stringify(baseMap)).map(p => {
+    simPlatforms = JSON.parse(JSON.stringify(baseMap)).map(p => {
         p.x += 10000;
+        if (p.type === 0) p.color = '#555566';
+        else if (p.type === 1) p.color = '#448844';
+        else if (p.type === 2) p.color = '#888899';
+        return p;
+    });
+    loadingPlatforms = JSON.parse(JSON.stringify(baseMap)).map(p => {
+        p.x += 20000;
         if (p.type === 0) p.color = '#555566';
         else if (p.type === 1) p.color = '#448844';
         else if (p.type === 2) p.color = '#888899';
@@ -199,14 +207,14 @@ function saveAIRates() {
 function startLoadingMode() {
     gameState = 'loading';
     platforms = loadingPlatforms;
-    player.x = 10100; player.y = 800;
+    player.x = 20100; player.y = 800;
     player.vx = 0; player.vy = 0;
 }
 
 function simulateInitialMatches() {
     const matches = [];
     // 200回シミュレーション用データ作成
-    for (let i = 0; i < 10000; i++) {
+    for (let i = 0; i < 2000; i++) {
         // 4体ランダム選出
         const shuffled = [...aiSamples].sort(() => 0.5 - Math.random());
         matches.push(shuffled.slice(0, 4));
@@ -270,12 +278,12 @@ function simulateRankedMatch(participants, map) {
     });
 
     let simBullets = [];
-    const maxFrames = 2400; // 最大40秒 (高速化のため短縮)
+    const maxFrames = 900; // 最大15秒 (超高速化)
     
     // 高速ループ
     for (let t = 0; t < maxFrames; t++) {
-        // AI更新 (3フレームに1回に間引いて高速化)
-        const isAIUpdateFrame = (t % 3 === 0);
+        // AI更新 (8フレームに1回に間引いて高速化)
+        const isAIUpdateFrame = (t % 8 === 0);
         
         simEnemies.forEach(e => {
             if (e.hp <= 0) return;
@@ -352,7 +360,7 @@ function simulateBackgroundMatches(count) {
 
     while (processedCount < count && candidateIndex + 4 <= candidates.length) {
         const participants = candidates.slice(candidateIndex, candidateIndex + 4);
-        simulateRankedMatch(participants, loadingPlatforms);
+        simulateRankedMatch(participants, simPlatforms);
         candidateIndex += 4;
         processedCount++;
     }
@@ -403,7 +411,7 @@ function processOfflineMatches() {
     const diffMs = now - lastLoginTime;
     const oneMinuteMs = 60 * 1000;
     let minutesPassed = Math.floor(diffMs / oneMinuteMs);
-    if (minutesPassed > 10000) minutesPassed = 10000;
+    if (minutesPassed > 2000) minutesPassed = 2000;
 
     if (minutesPassed <= 0) {
         savePlayerData(); // 時間更新のみ
@@ -934,6 +942,9 @@ canvas.addEventListener('touchstart', e => {
             homeParticles = [];
             gameState = 'matching';
             matchingTime = 20; // 20秒待機
+            platforms = loadingPlatforms;
+            player.x = 20100; player.y = 800;
+            player.vx = 0; player.vy = 0;
             
             // マッチング初期化
             const currentHour = new Date().getHours();
@@ -1203,6 +1214,9 @@ window.addEventListener('mousedown', e => {
             homeParticles = [];
             gameState = 'matching';
             matchingTime = 20;
+            platforms = loadingPlatforms;
+            player.x = 20100; player.y = 800;
+            player.vx = 0; player.vy = 0;
             
             const currentHour = new Date().getHours();
             const schedule = getDailySchedule(aiSamples);
@@ -1916,7 +1930,9 @@ function updateAI(ai, targetsOverride = null, bulletsOverride = null) {
         if (Math.random() < 0.5) {
             ai.vy = JUMP_FORCE;
             ai.jumpCount++;
-            for(let i=0; i<5; i++) particles.push({x: ai.x, y: ai.y+20, vx:(Math.random()-0.5)*2, vy:Math.random()*2, life:15, maxLife:15, color:'#fff', size:3});
+            if (!targetsOverride) {
+                for(let i=0; i<5; i++) particles.push({x: ai.x, y: ai.y+20, vx:(Math.random()-0.5)*2, vy:Math.random()*2, life:15, maxLife:15, color:'#fff', size:3});
+            }
         }
     }
     if (ai.onGround) ai.doubleJumpChecked = false;
@@ -1993,10 +2009,10 @@ function update() {
 
     if (gameState === 'loading') {
         const startTime = performance.now();
-        // 1フレームの予算(16ms)ギリギリまで回すことで、PCスペックの許す限り最高速(20000倍速以上)で処理
-        while (performance.now() - startTime < 16) {
+        // 1フレームの予算をさらに増やしてスループットを最大化
+        while (performance.now() - startTime < 100) {
             if (offlineSimQueue.length > 0) {
-                simulateRankedMatch(offlineSimQueue.shift(), loadingPlatforms);
+                simulateRankedMatch(offlineSimQueue.shift(), simPlatforms);
                 offlineSimCurrentMatch++;
             } else {
                 gameState = 'home';
@@ -2024,7 +2040,7 @@ function update() {
         player.hp = player.maxHp;
         const limitY = WORLD_HEIGHT + 100;
         if (player.y > limitY) {
-            player.x = 10100; player.y = 700; player.vx = 0; player.vy = 0;
+            player.x = 20100; player.y = 700; player.vx = 0; player.vy = 0;
         }
 
         // 弾更新 (簡易版)
@@ -2038,7 +2054,7 @@ function update() {
                     removed = true;
                 }
             });
-            if (removed || b.x < 10000 || b.x > 10000 + WORLD_WIDTH || b.y < 0 || b.y > WORLD_HEIGHT) {
+            if (removed || b.x < 20000 || b.x > 20000 + WORLD_WIDTH || b.y < 0 || b.y > WORLD_HEIGHT) {
                 bullets.splice(i, 1);
             }
         }
@@ -2143,6 +2159,28 @@ function update() {
             gameState = 'countdown';
             countdownTime = 3;
         }
+
+        // キャラコン練習 (マッチング中)
+        if (sticks.left.active) player.vx = Math.cos(sticks.left.angle) * (sticks.left.dist/50) * (player.speed || SPEED);
+        if (sticks.right.active) {
+            player.facing = Math.cos(sticks.right.angle) >= 0 ? 1 : -1;
+        } else if (Math.abs(player.vx) > 0.1) {
+            player.facing = player.vx > 0 ? 1 : -1;
+        }
+        applyPhysics(player);
+        processBurst(player);
+        if (player.y > WORLD_HEIGHT + 100) {
+            player.x = 20100; player.y = 700; player.vx = 0; player.vy = 0;
+        }
+        for (let i = bullets.length - 1; i >= 0; i--) {
+            const b = bullets[i]; b.x += b.vx; b.y += b.vy;
+            let removed = false;
+            platforms.forEach(p => { const hitH = p.type === 1 ? p.h / 2 : p.h; if (p.type < 10 && (p.type === 0 || p.type === 1) && b.x > p.x && b.x < p.x + p.w && b.y > p.y && b.y < p.y + hitH) removed = true; });
+            if (removed || b.x < 20000 || b.x > 20000 + WORLD_WIDTH || b.y < 0 || b.y > WORLD_HEIGHT) bullets.splice(i, 1);
+        }
+        camera.x = player.x - canvas.width / 2;
+        camera.y = player.y - canvas.height * 0.7;
+
         draw();
         requestAnimationFrame(update);
         return;
@@ -2461,6 +2499,18 @@ function update() {
 
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    if (gameState === 'loading') {
+        ctx.fillStyle = '#1a1a1a';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#fff';
+        ctx.font = '30px Arial'; ctx.textAlign = 'center';
+        ctx.fillText('ダウンロード中...', canvas.width/2, canvas.height/2 - 10);
+        ctx.font = '20px Arial';
+        ctx.fillText(`Now Loading... (${offlineSimCurrentMatch} / ${offlineSimTotalMatches})`, canvas.width/2, canvas.height/2 + 30);
+        return;
+    }
+
     ctx.save();
     ctx.translate(-camera.x, -camera.y);
 
@@ -2990,17 +3040,6 @@ function draw() {
         ctx.fillStyle = '#aaa';
         ctx.textAlign = 'right';
         ctx.fillText('音楽：魔王魂 様', canvas.width - 10, canvas.height - 10);
-    } else if (gameState === 'loading') {
-        // 読み込み中のテキスト表示 (背景はゲーム画面)
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.6)';
-        ctx.beginPath();
-        ctx.roundRect(canvas.width/2 - 200, canvas.height/2 - 60, 400, 120, 10);
-        ctx.fill();
-        ctx.fillStyle = '#fff';
-        ctx.font = '30px Arial'; ctx.textAlign = 'center';
-        ctx.fillText('ダウンロード中...', canvas.width/2, canvas.height/2 - 10);
-        ctx.font = '20px Arial';
-        ctx.fillText(`Now Loading... (${offlineSimCurrentMatch} / ${offlineSimTotalMatches})`, canvas.width/2, canvas.height/2 + 30);
     } else if (gameState === 'charSelect') {
         ctx.fillStyle = '#1a1a1a';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
