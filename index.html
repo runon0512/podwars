@@ -726,6 +726,8 @@ let countdownTime = 3;
 let editorTool = 0; // 0:Block, 1:Platform, 2:Fence, -1:Erase
 let editorColor = '#8d4433';
 const keys = {};
+let mouseX = 0;
+let mouseY = 0;
 let isMouseDown = false;
 
 loadPlayerData();
@@ -1129,10 +1131,27 @@ window.addEventListener('touchend', e => {
     // ... (existing code handles this via changedTouches loop above, but let's ensure consistency if needed)
 });
 
-window.addEventListener('keydown', e => keys[e.code] = true);
+window.addEventListener('keydown', e => {
+    keys[e.code] = true;
+    if ((e.code === 'Space' || e.code === 'ArrowUp' || e.code === 'KeyW') && (gameState === 'playing' || gameState === 'matching')) {
+        if (player.jumpCount < player.maxJumps) {
+            player.vy = JUMP_FORCE;
+            player.onGround = false;
+            player.jumpCount++;
+            for(let i=0; i<10; i++) {
+                particles.push({
+                    x: player.x + (Math.random()-0.5)*40, y: player.y + player.radius,
+                    vx: (Math.random()-0.5)*3, vy: Math.random()*2, life: 20, maxLife: 20, color: '#fff', size: Math.random()*5+2
+                });
+            }
+        }
+    }
+});
 window.addEventListener('keyup', e => keys[e.code] = false);
 
 window.addEventListener('mousedown', e => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
     if (currentBgm && currentBgm.paused) {
         currentBgm.play().catch(() => {});
     }
@@ -1316,12 +1335,18 @@ window.addEventListener('mousedown', e => {
         }
         return;
     }
+    if (gameState === 'playing' || gameState === 'matching') {
+        const angle = Math.atan2(e.clientY - (player.y - camera.y), e.clientX - (player.x - camera.x));
+        triggerShoot(player, angle);
+    }
     if (!isEditor) return;
     if (e.target !== canvas) return;
     isMouseDown = true;
     handleEditorInput(e.clientX, e.clientY);
 });
 window.addEventListener('mousemove', e => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
     if (isDraggingVolumeSlider) {
         const x = e.clientX;
         const slider = { x: canvas.width - 160, y: canvas.height - 50, w: 150, h: 40 };
@@ -2181,10 +2206,17 @@ function update() {
 
         // キャラコン練習 (マッチング中)
         if (sticks.left.active) player.vx = Math.cos(sticks.left.angle) * (sticks.left.dist/50) * (player.speed || SPEED);
+        else {
+            if (keys['ArrowLeft'] || keys['KeyA']) player.vx = -(player.speed || SPEED);
+            if (keys['ArrowRight'] || keys['KeyD']) player.vx = (player.speed || SPEED);
+        }
         if (sticks.right.active) {
             player.facing = Math.cos(sticks.right.angle) >= 0 ? 1 : -1;
         } else if (Math.abs(player.vx) > 0.1) {
             player.facing = player.vx > 0 ? 1 : -1;
+        } else {
+            const dx = mouseX - (player.x - camera.x);
+            if (Math.abs(dx) > 10) player.facing = dx > 0 ? 1 : -1;
         }
         applyPhysics(player);
         processBurst(player);
@@ -2266,11 +2298,18 @@ function update() {
     // プレイヤー操作 (spectating中は無効)
     if (gameState === 'playing') {
         if (sticks.left.active) player.vx = Math.cos(sticks.left.angle) * (sticks.left.dist/50) * (player.speed || SPEED);
+        else {
+            if (keys['ArrowLeft'] || keys['KeyA']) player.vx = -(player.speed || SPEED);
+            if (keys['ArrowRight'] || keys['KeyD']) player.vx = (player.speed || SPEED);
+        }
         
         if (sticks.right.active) {
             player.facing = Math.cos(sticks.right.angle) >= 0 ? 1 : -1;
         } else if (Math.abs(player.vx) > 0.1) {
             player.facing = player.vx > 0 ? 1 : -1;
+        } else {
+            const dx = mouseX - (player.x - camera.x);
+            if (Math.abs(dx) > 10) player.facing = dx > 0 ? 1 : -1;
         }
         applyPhysics(player);
         processBurst(player);
@@ -2719,7 +2758,13 @@ function draw() {
     ctx.translate(char.x, char.y + floatY);
     let aimAngle = 0;
     if (char === player) {
-        aimAngle = sticks.right.active ? sticks.right.angle : (char.facing === 1 ? 0 : Math.PI);
+        if (sticks.right.active) {
+            aimAngle = sticks.right.angle;
+        } else {
+            const screenX = char.x - camera.x;
+            const screenY = char.y - camera.y + floatY;
+            aimAngle = Math.atan2(mouseY - screenY, mouseX - screenX);
+        }
     } else {
         // AI Aim
         // ターゲットがいて、かつ視線が通っているなら銃を向ける (射線が壁で少し隠れていても狙う)
