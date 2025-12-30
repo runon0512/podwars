@@ -2207,8 +2207,10 @@ function update() {
         // キャラコン練習 (マッチング中)
         if (sticks.left.active) player.vx = Math.cos(sticks.left.angle) * (sticks.left.dist/50) * (player.speed || SPEED);
         else {
-            if (keys['ArrowLeft'] || keys['KeyA']) player.vx = -(player.speed || SPEED);
-            if (keys['ArrowRight'] || keys['KeyD']) player.vx = (player.speed || SPEED);
+            let dx = 0;
+            if (keys['ArrowLeft'] || keys['KeyA']) dx -= 1;
+            if (keys['ArrowRight'] || keys['KeyD']) dx += 1;
+            player.vx = dx * (player.speed || SPEED);
         }
         if (sticks.right.active) {
             player.facing = Math.cos(sticks.right.angle) >= 0 ? 1 : -1;
@@ -2299,8 +2301,10 @@ function update() {
     if (gameState === 'playing') {
         if (sticks.left.active) player.vx = Math.cos(sticks.left.angle) * (sticks.left.dist/50) * (player.speed || SPEED);
         else {
-            if (keys['ArrowLeft'] || keys['KeyA']) player.vx = -(player.speed || SPEED);
-            if (keys['ArrowRight'] || keys['KeyD']) player.vx = (player.speed || SPEED);
+            let dx = 0;
+            if (keys['ArrowLeft'] || keys['KeyA']) dx -= 1;
+            if (keys['ArrowRight'] || keys['KeyD']) dx += 1;
+            player.vx = dx * (player.speed || SPEED);
         }
         
         if (sticks.right.active) {
